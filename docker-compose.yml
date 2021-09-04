@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  lb:
+    image: haproxy
+    ports:
+        - "8080:8080"
+    volumes:
+        - ./src/config:/usr/local/etc/haproxy
+  nodeapp1:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: nodeapp1
+    container_name: UserContainer
+    ports:
+      - 8081:8081
+    volumes: 
+      - ./src:/src
+      - /node_modules
+    depends_on:
+      - mongodb
+    environment:
+      - PORT=8081
+      - SERVICE_NAME=user
+      - DB_HOST=db_mongo
+      - DB_PORT=27017
+      - DB_NAME=optilyz
+      - NODE_ENV=development
+      - TOKEN_KEY=thisisatokenkey
+    depends_on:
+      - mongodb
+  nodeapp2:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: nodeapp2
+    container_name: TaskContainer
+    ports:
+      - 8082:8082
+    volumes: 
+      - ./src:/src
+      - /node_modules
+    depends_on:
+      - mongodb
+    image: nodeapp
+    environment:
+      - PORT=8082
+      - SERVICE_NAME=task
+      - DB_HOST=db_mongo
+      - DB_PORT=27017
+      - DB_NAME=optilyz
+      - NODE_ENV=development
+      - TOKEN_KEY=thisisatokenkey
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:4
+    command: mongod
+    ports:
+      - "27017:27017"
+    container_name: db_mongo
