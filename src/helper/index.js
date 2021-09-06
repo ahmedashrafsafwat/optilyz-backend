@@ -1,3 +1,4 @@
+/** set of helper functions */
 exports.successResponse = (message,data =[], code = 200,res) => res.status(code).send({
     code,
     data,
@@ -13,6 +14,7 @@ exports.successResponse = (message,data =[], code = 200,res) => res.status(code)
     message,
   });
   
+
   exports.validateFields = (object, fields) => {
     const errors = [];
     fields.forEach((f) => {

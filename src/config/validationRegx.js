@@ -1,3 +1,4 @@
+/** all the regex for all fields */
 module.exports.validationRgex = {
     name: /^[_ a-zA-Z]{2,36}$/, // only letters from 2 to 36
     password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/,// minimum 4 chars at least one letter and one number

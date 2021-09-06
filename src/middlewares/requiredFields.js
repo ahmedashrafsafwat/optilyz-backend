@@ -1,3 +1,4 @@
+/** middleware for body,query,params validation and checking */
 const {requiredBody} = require("../config/requiredBody");
 const {validationRgex} = require("../config/validationRegx");
 const {errorResponse,isValidDate} = require("../helper")

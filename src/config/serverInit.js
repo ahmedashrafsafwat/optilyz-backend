@@ -2,7 +2,6 @@ const express = require("express");
 var cors = require("cors");
 const expressValidator = require("express-validator");
 const bodyParser = require("body-parser");
-// connect to db
 
 
 // Create express server

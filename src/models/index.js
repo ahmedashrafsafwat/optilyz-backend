@@ -1,4 +1,4 @@
-
+/** connect to mongodb */
 const mongoose = require("mongoose") 
 
 // choose from the development and test databases

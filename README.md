@@ -10,7 +10,7 @@ This is Optilyz backend challenge, the backend is built with microservices archt
 
 We have 2 modes for the `NODE_ENV` variable in the .env:
 1. `development` => to the application as services in the development environment
-2. `test` => to run the endpoint test cases
+2. `test` => to run the endpoint test cases which runs the two services at the same time
 3. `production` => just written to simulate the production variables
 To run a single service you can specify the service name in `SERVICE_NAME` env variable from `user` or `task`
 the service name should always be equal to the route file name

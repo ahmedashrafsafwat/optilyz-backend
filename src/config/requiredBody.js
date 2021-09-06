@@ -1,3 +1,6 @@
+/**
+ *  all the required and not required body, params query in the apis
+ */
 module.exports.requiredBody = {
     "login": {
             email: true,
