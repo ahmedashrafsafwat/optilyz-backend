@@ -1,6 +1,5 @@
 const express = require("express");
 var cors = require("cors");
-const expressValidator = require("express-validator");
 const bodyParser = require("body-parser");
 
 
@@ -16,7 +15,6 @@ module.exports = (serviceName, port) => {
             extended: true
         }));
 
-        app.use(expressValidator());
 
         //require only the running service only 
         const route = require(`../routes/${serviceName}.js`);
