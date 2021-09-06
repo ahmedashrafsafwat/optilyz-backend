@@ -25,7 +25,7 @@ module.exports.taskController = {
   },
   delete: async (req, res) => {
     await taskService.delete(req, res, (err, response) => {
-      if (err) errorResponse(err.message, err.code, res);
+      if (err) return errorResponse(err.message, err.code, res);
 
       return successResponse("Task Deleted", response, 200, res);
     });

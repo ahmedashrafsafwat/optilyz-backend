@@ -2,19 +2,25 @@ const routes = require("express").Router();
 
 const { taskController } = require('../controller/task.controller')
 const {authentication} = require('../middlewares/authentication')
-/**
- *  Allows the spam protection team to block a source from the users
- */
-routes.get("/all", authentication ,taskController.getAll);
+const {requiredFields} = require('../middlewares/requiredFields');
 
 /**
- *  Allows the spam protection team to resolve a ticket
+ *  gets tasks with query params for paginations
+ *  queryParameters: 
+ *      perPage: 
+ *          description: the tasks per single page
+ *      page:
+ *          description: the page that we are currently standing on
+ *  if query parameters not sent then the default scenario is turned on which returns 
+ *  page number 0 with 10 tasks per page
  */
-routes.post("/add",authentication, taskController.add);
+routes.get("/", authentication ,requiredFields,taskController.getAll);
 
-routes.put("/edit/:id",authentication, taskController.edit);
+routes.post("/add",authentication,requiredFields, taskController.add);
 
-routes.delete("/delete/:id", authentication , taskController.delete);
+routes.put("/edit/:id",authentication, requiredFields,taskController.edit);
+
+routes.delete("/delete/:id", authentication , requiredFields,taskController.delete);
 
 
 

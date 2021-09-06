@@ -2,12 +2,27 @@ const Task = require("../models/task");
 
 module.exports.taskService = {
   getAll: async (req, res, callback) => {
-
     try {
-        let tasks = await Task.find({});
+      let { page , perPage } = req.query 
+
+      if(!page) {
+        page = 0
+      } else {
+        page = parseInt(page)
+      }
+      if(!perPage) {
+        perPage = 10
+      }else {
+        perPage =parseInt(perPage)
+      }
+
+      let tasks = await Task.find({})
+        .select('title description deadline reminderTime isCompleted')
+        .limit(perPage)
+        .skip(perPage * page)
+        .sort({title: 'asc'});
 
         callback(null, tasks);
-
     } catch (err) {
         callback({message:err.message,code:500})
     }

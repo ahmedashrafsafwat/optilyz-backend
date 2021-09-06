@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const { validateEmail, validateFields } = require("../helper")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
@@ -8,19 +7,9 @@ module.exports.userService = {
     try {
         const { email, password } = req.body;
 
-        let errors = validateFields({email,password}, ["email","password"]);
-
-        if(errors) {
-            return  callback({message:errors,code:400})
-        }
-
-        if(!validateEmail(email)) {
-            return     callback({message:"Enter a valid email",code:400})
-        }
-
     
     // Validate if user exist in our database
-    var user = await User.findOne({ email });
+    var user = await User.findOne({ email }).select('email name _id password');
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
@@ -35,14 +24,11 @@ module.exports.userService = {
       // save user token
       user.token = token;
 
-      // remove unneccessery keys
-      // first return mongoose to plain JavaScript object 
+      // delete password from the returned object
+      // transform user to object 
       user = user.toObject();
 
-     delete user["password"];
-     delete user["created"];
-     delete user["updated"];
-     delete user["__v"];
+      delete user.password;
 
       return callback(null,user);
     } else
@@ -59,16 +45,6 @@ module.exports.userService = {
 
         email = email.toLowerCase();
 
-        let errors = validateFields({email, password,name }, ["email","password","name"]);
-        
-        console.log(errors)
-        if(errors) {
-            return  callback({message:errors,code:400})
-        }
-
-        if(!validateEmail(email)) {
-            return callback({message:"Enter a valid email",code:400})
-        }
 
         const oldUser = await User.findOne({ email });
 

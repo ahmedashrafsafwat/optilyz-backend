@@ -42,11 +42,12 @@ describe("Endpoint Tests", function() {
         .post("/register")
         .send({
             "email":"ahmedashraf@gmail.com",
-            "password":"1234",
+            "password":"1234abcd",
             "name":"Ahmed Ashraf"        
         })
         .end((err, res) => {
           // Check for returned result
+
           expect(res.body).to.have.all.keys('code','message','data');
           expect(res.body).to.have.property('code', 200);
           expect(res.body.data).to.have.all.keys(
@@ -55,7 +56,7 @@ describe("Endpoint Tests", function() {
             "email",
             "token"
           );
-          // console.log (result);
+
           done();
         });
     });
@@ -65,7 +66,7 @@ describe("Endpoint Tests", function() {
         .post("/login")
         .send({
           "email":"ahmedashraf@gmail.com",
-          "password":"1234"
+          "password":"1234abcd"
         })
         .set("Content-Type", "application/json")
         .end((err, res) => {
@@ -81,7 +82,6 @@ describe("Endpoint Tests", function() {
           );
 
           token = res.body.data.token;
-          
           done();
         });
     });
@@ -94,7 +94,7 @@ describe("Endpoint Tests", function() {
         .post("/task/add")
         .set("x-access-token",token)
         .send({
-          "title": "This is a test title.",
+          "title": "This is a test title",
           "description": "This is a test description",
           "deadline": "Fri Sep 03 2021 06:13:20 GMT+0200" ,
           "reminderTime": "Fri Sep 03 2021 06:13:20 GMT+0200",
@@ -113,14 +113,30 @@ describe("Endpoint Tests", function() {
             "description",
           );
           taskid = res.body.data._id
-          // console.log (result);
+
           done();
         });
     });
     it("Should be able to get all tasks", done => {
       chai
         .request(serverTask)
-        .get("/task/all")
+        .get("/task")
+        .set("x-access-token",token)
+        .set("Content-Type", "application/json")
+        .end((err, res) => {
+          
+          // Check for returned result
+          expect(res.body).to.have.all.keys('code','message','data');
+          expect(res.body).to.have.property('code', 200);
+          expect(res.body.data).to.be.an('array')
+
+          done();
+        });
+    });
+    it("Should be able to get all tasks with pagination too", done => {
+      chai
+        .request(serverTask)
+        .get("/task?perPage=6&page=0")
         .set("x-access-token",token)
         .set("Content-Type", "application/json")
         .end((err, res) => {
