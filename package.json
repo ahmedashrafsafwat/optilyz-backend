@@ -10,7 +10,7 @@
   "author": "Ahmed Ashraf",
   "scripts": {
     "start": "node ./src/server.js",
-    "test": "mocha ./src/test/api_unit_tests --timeout=10000 --exit"
+    "test": "mocha ./src/test/endpoint_tests --timeout=10000 --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

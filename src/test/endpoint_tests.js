@@ -1,7 +1,14 @@
 const { expect } = require("chai");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = require("../app");
+
+let Server = require("../server");
+
+let serverClassUser = new Server("user",8081);
+let serverClassTask = new Server("task",8082);
+
+let serverUser = serverClassUser.start()
+let serverTask = serverClassTask.start()
 
 chai.use(chaiHttp);
 var chaiSubset = require('chai-subset');
@@ -31,8 +38,8 @@ describe("Endpoint Tests", function() {
   describe("Testing user services", function() {
     it("Should be able to register", done => {
       chai
-        .request(server)
-        .post("/user/register")
+        .request(serverUser)
+        .post("/register")
         .send({
             "email":"ahmedashraf@gmail.com",
             "password":"1234",
@@ -54,8 +61,8 @@ describe("Endpoint Tests", function() {
     });
     it("Should be able login", done => {
       chai
-        .request(server)
-        .post("/user/login")
+        .request(serverUser)
+        .post("/login")
         .send({
           "email":"ahmedashraf@gmail.com",
           "password":"1234"
@@ -83,12 +90,12 @@ describe("Endpoint Tests", function() {
   describe("Testing task services", function() {
     it("Should be able to add new task", done => {
       chai
-        .request(server)
+        .request(serverTask)
         .post("/task/add")
         .set("x-access-token",token)
         .send({
-          "title": "123",
-          "description": "123",
+          "title": "This is a test title.",
+          "description": "This is a test description",
           "deadline": "Fri Sep 03 2021 06:13:20 GMT+0200" ,
           "reminderTime": "Fri Sep 03 2021 06:13:20 GMT+0200",
           "isCompleted": false      
@@ -105,14 +112,14 @@ describe("Endpoint Tests", function() {
             "title",
             "description",
           );
-          taskid = res.body.data_id
+          taskid = res.body.data._id
           // console.log (result);
           done();
         });
     });
     it("Should be able to get all tasks", done => {
       chai
-        .request(server)
+        .request(serverTask)
         .get("/task/all")
         .set("x-access-token",token)
         .set("Content-Type", "application/json")
@@ -128,7 +135,7 @@ describe("Endpoint Tests", function() {
     });
     it("Should be able to edit a tasks", done => {
       chai
-        .request(server)
+        .request(serverTask)
         .put("/task/edit/" + taskid)
         .set("Content-Type", "application/json")
         .set("x-access-token",token)
@@ -151,7 +158,7 @@ describe("Endpoint Tests", function() {
     });
     it("Should be able to delete a task", done => {
       chai
-        .request(server)
+        .request(serverTask)
         .delete("/task/delete/" + taskid)
         .set("Content-Type", "application/json")
         .set("x-access-token",token)

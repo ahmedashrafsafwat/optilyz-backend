@@ -11,6 +11,11 @@ const x = { // for connecting to the development or test database
     port: env.DB_PORT,
     host: env.DB_HOST,
   },
+  test: {
+    database: env.DB_NAME,
+    port: env.DB_PORT,
+    host: env.DB_HOST,
+  },
   production: { // for production database server 
     database: env.DB_NAME,
     port:  env.DB_PORT,
