@@ -9,16 +9,17 @@ This is Optilyz backend challenge, the backend is built with microservices archt
 4. mongodb container
 
 We have 2 modes for the `NODE_ENV` variable in the .env:
-a. development => to the application as services in the development environment
-b. test => to run the endpoint test cases
-c. production => just written to simulate the production variables
+1. `development` => to the application as services in the development environment
+2. `test` => to run the endpoint test cases
+3. `production` => just written to simulate the production variables
 To run a single service you can specify the service name in `SERVICE_NAME` env variable from `user` or `task`
 the service name should always be equal to the route file name
 
-2. the prerequests to run this project:
-   a. to have node & npm installed 
-   b. to have docker installed 
-   c. to have docker-compose installed
+### The prerequests to run this project:
+
+   1. to have node & npm installed 
+   2. to have docker installed 
+   3. to have docker-compose installed
 
 then head over to the APIs at port 8080 at localhost which is the exposed port for the `haproxy` you can change that inside the `docker-compose.yml` file
 
@@ -26,22 +27,22 @@ then head over to the APIs at port 8080 at localhost which is the exposed port f
 
  run the following commands:
 
-   a. run command `npm install`
-   b. run command `docker-compose build`
-   c. run command `docker-compose up`
+   1. run command `npm install`
+   2. run command `docker-compose build`
+   3. run command `docker-compose up`
 
 
 ### The APIs can be found inside the postman collection
 
-   and here is the list of all routes
-`user` service
-   POST   `http://localhost:8080/login`
-   POST   `http://localhost:8080/register`
-`task` service   
-   POST   `http://localhost:8080/task/add`
-   GET    `http://localhost:8080/task?perPage=10&page=0`
-   PUT    `http://localhost:8080/task/edit/:id`
-   DELETE `http://localhost:8080/task/delete/:id`
+   and here is the list of all routes <br />
+`user` service  <br />
+   POST   `http://localhost:8080/login` <br />
+   POST   `http://localhost:8080/register` <br />
+`task` service   <br />
+   POST   `http://localhost:8080/task/add` <br />
+   GET    `http://localhost:8080/task?perPage=10&page=0` <br />
+   PUT    `http://localhost:8080/task/edit/:id` <br />
+   DELETE `http://localhost:8080/task/delete/:id` <br />
 
 
 
